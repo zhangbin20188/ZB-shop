@@ -1,6 +1,6 @@
 <template>
-    <div>
-        社区
+    <div class="wrap">
+        <div></div>
     </div>
 </template>
 <script>

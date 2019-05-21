@@ -9,6 +9,7 @@ var state={
     left_list:[],
     right_list:[], //默认第一条数据
     particularsList:{},
+    shopcartList:[] //购物车数据
 }
 var getters={
     img_list(){
@@ -22,6 +23,9 @@ var getters={
     },
     particulars(){
         return state.particularsList
+    },
+    shopcartList(){
+        return state.shopcartList
     }
 }
 var actions={
@@ -65,6 +69,24 @@ var actions={
         .then((res)=>{
             ctx.commit("particulars",res.data)
         })
+    },
+    joinShoppcart(ctx,id){
+        // console.log(id)
+        var params = new URLSearchParams();
+        params.append('id',id)
+        axios.post('/insertCart',params)
+        .then((res)=>{
+            console.log(res)
+        })
+    },
+    joinShop(ctx,id){
+        var params = new URLSearchParams();
+        params.append('userid',id)
+        axios.post('/ShowCartList',params)
+        .then((res)=>{
+                console.log(res.data)
+                ctx.commit('joinShop',res.data)
+        })  
     }
 
 }
@@ -90,7 +112,12 @@ var mutations={
     particulars(state,data){
         // console.log(data)
         state.particularsList = data
-        console.log(state.particularsList)
+        // console.log(state.particularsList)
+    },
+    joinShop(state,data){
+        // console.log(data)
+        state.shopcartList = data
+        // console.log(state.shopcartList)
     }
 
 }
