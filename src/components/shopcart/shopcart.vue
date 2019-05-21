@@ -5,7 +5,37 @@
            <span>删除</span>
        </div>
        <div class="content-list">
-           <div class="list-box">
+           <div class="list-box" v-for="(item,index) in shopcartList" :key="index">
+               <div class="list-checkbox">
+                    <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
+                    <label  for="color-input-red"></label >
+               </div>
+               <div class="list-right">
+                   <div class="list-img">
+                       <img :src="item.pic_path">
+                   </div>
+
+                   <div class="list-text">
+                       <p class="list-text-title">{{item.title}}</p>
+                       <div class="time"><span>最快今日到达</span></div>
+                       <div class="standard">
+                           <span>规格：<i>{{item.norm}}</i></span>
+                       </div>
+                       <div class="bottom">
+                           <div class="bottom-left">
+                                <span>￥{{item.price}}</span><span>/kg</span>
+                           </div>
+                           <div class="bottom-right">
+                               <div class="sub">-</div>
+                               <input type="text" value="1" class="text-inp">
+                               <div class="add">+</div>
+                           </div>
+                        </div>
+                   </div>
+               </div>
+           </div>
+
+            <!-- <div class="list-box">
                <div class="list-checkbox">
                     <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
                     <label  for="color-input-red"></label >
@@ -27,57 +57,61 @@
                            </div>
                            <div class="bottom-right">
                                <div class="sub">-</div>
-                               <input type="text" value="12" class="text-inp">
+                               <input type="text" value="1" class="text-inp">
                                <div class="add">+</div>
                            </div>
                         </div>
                    </div>
                </div>
-           </div>
+           </div> -->
 
-            <div class="list-box">
-               <div class="list-checkbox">
-                    <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
-                    <label  for="color-input-red" class=""></label >
-               </div>
-               <div class="list-right">
-                   <div class="list-img">
-                       <img src="../classify/image/bg.jpg">
-                   </div>
 
-                   <div class="list-text">
-                       <p class="list-text-title">[A果] 泰国金正榴莲 （散称）</p>
-                       <div class="time"><span>最快今日到达</span></div>
-                       <div class="standard">
-                           <span>规格：称重</span>
-                       </div>
-                       <div class="bottom">
-                           <div class="bottom-left">
-                                <span>￥47.80</span><span>/kg</span>
-                           </div>
-                           <div class="bottom-right">
-                               <div class="sub">-</div>
-                               <input type="text" value="12" class="text-inp">
-                               <div class="add">+</div>
-                           </div>
-                        </div>
-                   </div>
-               </div>
-           </div>
+       </div>
 
+       <div class="checkAll">
+            <div class="checkAll-left">
+                <div>
+                    <input id="color-input-all" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
+                    <label  for="color-input-all"></label >
+                </div>
+                <div class="checkAll-txt"><span>全选</span></div>
+            </div>
+
+            <div class="checkAll-right">
+                <div class="left-text">
+                    <span>合计：<strong>￥<i>593.50</i></strong> (免运费)</span>
+                </div>
+
+                <div class="right-btn">
+                    去结算
+                </div>
+            </div>
        </div>
     </div>
 </template>
 <script>
 export default {
     name:"shopcart",
-    componens:{
-        
+    data(){
+        return {
+            id:1
+        }
+    },
+    mounted(){
+        this.$store.dispatch('joinShop',this.id)
+    },
+    computed:{
+        shopcartList(){
+            return this.$store.getters.shopcartList
+        }
     }
     
 }
 </script>
 <style scoped>
+    i{
+        font-style: normal
+    }
     p{
         margin: 0
     }
@@ -109,6 +143,7 @@ export default {
         width: 100%;
         height: 100%;
         /* overflow: hidden; */
+        padding-bottom: 121px;
     }
     .list-box{
         width: 100%;
@@ -123,17 +158,6 @@ export default {
         line-height: 2;
         align-items: center
     }
-    /*lable标签的大小、位置、背景颜色更改，在css选择时，“+”代表相邻元素，即当前元素的下一元素*/
-    /* #color-input-red +label{
-        display: block;
-        width: 23px;
-        height: 23px;
-        border-radius:50%; 
-        cursor: pointer;
-        background: white;
-        border: 1px solid #dedad7;
-    } */
- 
 /*当input框为选中状态时，lable标签的样式，其中在css选择时，“：”表示当前input框的值，即checked；
       该部分主要对显示的“对号”的大限居中方式，显示颜色进行了设置*/
     /*input框中颜色更改*/
@@ -176,11 +200,16 @@ export default {
     }
     .list-text{
        flex: 1;
-       border-bottom: 1px solid #e5e5e5
+       border-bottom: 1px solid #e5e5e5;
+       margin-bottom: -10px;
     }
     .list-text-title{
+        width: 219.5px;
         font-size: 15px;
-        text-indent: 16px
+        text-indent: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .time{
         text-indent: 10px;
@@ -248,5 +277,72 @@ export default {
         line-height: 20px;
         background: #f4f4f4;
         border-left: 1px solid #e0e0e0;
+    }
+    .checkAll{
+        width: 100%;
+        height: 60px;
+        position: fixed;
+        bottom:61px;
+        left: 0; 
+        display: flex;
+        background: white
+    }
+    .checkAll-left{
+        width: 20%;
+        display: flex;
+        padding-left: 10px
+    }
+    .checkAll-left>div{
+        flex: 1px;
+    }
+    .checkAll-txt{
+        line-height: 65px;
+    }
+    #color-input-all +label{
+        display: block;
+        width: 23px;
+        height: 23px;
+        cursor: pointer;
+        background: white;
+        border-radius:50%; 
+        border: 1px solid #dedad7
+    }
+        #color-input-all:checked +label::before{
+        display: block;
+        content: "\2714";
+        text-align: center;
+        line-height: 23px;
+        width: 23px;
+        height: 23px;
+        font-size: 16px;
+        border-radius:50%;  
+        color: white;
+        background: #17a5ff
+    }
+    .checkAll-right{
+        display: flex;
+        width: 80%;
+        align-items: center
+    }
+    .left-text{
+        width: 60%;
+    }
+    .left-text span{
+        font-size: 13px;
+        color: #9a9a9a;
+    }
+    .left-text span strong{
+        font-size: 16px;
+        font-weight: bold;
+        color: #f36059;
+    }
+    .right-btn{
+        width: 40%;
+        text-align: center;
+        background: #0ac7fe;
+        height: 60px;
+        line-height: 60px;
+        color: white;
+        font-size: 18px
     }
 </style>

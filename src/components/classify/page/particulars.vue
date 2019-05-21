@@ -3,7 +3,7 @@
             <div class="header-img">
                 <img :src="particulars.image">
                 <i class="iconfont icon-fanhui1 return" @click="clickReturn"></i>
-                <i class="iconfont  icon-gouwuche shoppcart">
+                <i class="iconfont  icon-gouwuche shoppcart" @click="joinShop">
                     <div class="num">1</div>
                 </i>
             </div>
@@ -44,11 +44,11 @@
             </div>
         </div>
 
-        <div class="bg-img">
+        <!-- <div class="bg-img">
                 <img src="">
-        </div>
+        </div> -->
 
-        <div class="btn">加入购物车</div>
+        <div class="btn" @click="joinShoppcart">加入购物车</div>
     </div>
 </template>
 
@@ -57,12 +57,18 @@ export default {
     name:'particulars',
     data(){
         return {
-            
+            id:1
         }
     },
     methods:{
         clickReturn(){
             this.$router.push({name:'classify_children'})
+        },
+        joinShoppcart(){
+            this.$store.dispatch('joinShoppcart',this.$store.getters.particulars.id)
+        },
+        joinShop(){
+            this.$router.push({name:'shopcart'})
         }
     },
     mounted(){
@@ -243,7 +249,8 @@ export default {
     .details{
         overflow: hidden;
         margin-top: 15px; 
-        font-size: 14px 
+        font-size: 14px ;
+        /* padding-bottom: 40px; */
     }
     .title{
         text-align: center;
@@ -269,9 +276,9 @@ export default {
     .details-wrap{
         width: 500px;
         height: 500px;
-        /* padding: 0 13px; */
-        /* box-sizing: border-box; */
-        /* background: #fafafa; */
+        padding: 0 13px;
+        box-sizing: border-box;
+        background: #fafafa;
         overflow: hidden;
     }
     .details-wrap img{
@@ -294,11 +301,11 @@ export default {
     .details-list:last-child{
         border-bottom: none
     }
-    .bg-img{
+    /* .bg-img{
         width: 100%;
         background: red;
         height: 400px;
-    }
+    } */
     .btn{
         position: fixed;
         left: 0;
