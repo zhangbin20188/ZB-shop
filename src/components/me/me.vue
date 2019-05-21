@@ -110,21 +110,29 @@
                     <p>常用工具</p>
             </div>
             <div class="body_contents_instrument_info">
-                <div>
-                    <i class="iconfont icon-daipingjia"></i>
-                    <p>邀请有礼</p>
-                    <p>各自得5元</p>
-
+                <div v-for="(item,index) in cang_list" :key="index">
+                    <i class="iconfont" :class="item.icons"></i>
+                    <div>{{item.title}}</div>
+                    <div>{{item.test}}</div>
                 </div>
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
+                
+
+
+            </div>
+        </div>
+        <div class="body_contents_instrument_push_title">
+            ———&nbsp;&nbsp; <span>我常买•<a>FAVORITE</a></span> &nbsp;&nbsp; ———
+        </div>
+        <div class="body_contents_instrument_push">
+            <div v-for="(item,index) in shop_llist" :key="index"> 
+                <img :src="item.img" >
+                <p>{{item.title}}</p>
+                <p v-if="typeof(item.frequency)=='number'">买过{{item.frequency}}次</p>
+                <p v-else>{{item.frequency}}</p>
             </div>
         </div>
 
-        <div class="bottom">
-12132
-        </div>
+        <div class="bottom"></div>
     </div>
 </template>
 <script>
@@ -134,9 +142,27 @@ export default {
         return{
             your_name:'小仙女',
             kuang:2,
-            fa_huo:5,
+            fa_huo:95,
             shou_huo:1,
-            ping:''
+            ping:'',
+            cang_list:[
+                {id:1,icons:'icon-haoyou',title:'邀请有礼',test:'各自得5元'},
+                {id:2,icons:'icon-q07',title:'鳄鱼门店',test:''},
+                {id:3,icons:'icon-xiaozhen',title:'鳄鱼小镇',test:'0元换好货'},
+                {id:4,icons:'icon-qingcai',title:'买菜券',test:'充值送好礼'},
+                {id:5,icons:'icon-iconfontquan',title:'兑换优惠券',test:''},
+                {id:6,icons:'icon-liwu',title:'新人奖',test:'连签赢大奖'},
+                {id:7,icons:'icon-fapiaocuti',title:'开发票',test:''},
+                {id:8,icons:'icon-kefu1',title:'鳄鱼小丽',test:'有问题找小丽'}
+            ],
+            shop_llist:[
+                {id:1,img:require('./image/head_portrait.jpg'),title:'乳山生蚝',frequency:5},
+                {id:1,img:require('./image/head_portrait.jpg'),title:'发的发阿道夫',frequency:"还没买过"},
+                {id:1,img:require('./image/head_portrait.jpg'),title:'发代付费',frequency:5},
+                {id:1,img:require('./image/head_portrait.jpg'),title:'个人规划如果',frequency:5},
+                {id:1,img:require('./image/head_portrait.jpg'),title:'还挺好挺好',frequency:5},
+                {id:1,img:require('./image/head_portrait.jpg'),title:'加密密码',frequency:5},
+            ]
 
         }
     }
@@ -144,17 +170,66 @@ export default {
 }
 </script>
 <style scoped>
-.body_contents_instrument_info>div p:nth-child(2){
+.body_contents_instrument_push div img{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.body_contents_instrument_push div p:nth-child(3){
+    font-size: 0.14rem;
     color: #bcb9b9;
 }
-.body_contents_instrument_info>div p:nth-child(3){
-    color: #ff493f;
+.body_contents_instrument_push div p{
+    width: 100%;
+    margin: 0.025rem;
+    overflow: hidden;/*内容超出后隐藏*/
+    text-overflow: ellipsis;/* 超出内容显示为省略号*/
+    white-space: nowrap;/*文本不进行换行*/
 }
-.body_contents_instrument_info>div p{
+.body_contents_instrument_push div{
+    width: 48%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    padding: 0.1rem 0.025rem;
+}
+.body_contents_instrument_push{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+.body_contents_instrument_push_title span a{
+    color: #85bcbc;
+}
+.body_contents_instrument_push_title span{
+    font-weight: bold;
+}
+.body_contents_instrument_push_title{
+    width: 100%;
+    height: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:  0.05rem 0;
+}
+.body_contents_instrument_info>div div:nth-child(2){
+    color: #bcb9b9;
+    font-size: 0.14rem;
+    margin: 0;
+}
+.body_contents_instrument_info>div div:nth-child(3){
+    color: #ff493f;
+    width: 100%;
+    height: 0.05rem;
+    font-size: 0.1rem;
+}
+.body_contents_instrument_info>div div{
     margin: 0;
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-bottom: 0.1rem;
 }
 .body_contents_instrument_info>div i{
     font-size: 0.28rem;
@@ -187,16 +262,18 @@ export default {
 }
 .body_contents_items>div{
     position: relative;
+    margin-top: 0.1rem;
 }
 .num_float{
     position: absolute;
     left: 0.55rem;
     top: -0.1rem;
-    width: 0.2rem;
-    height: 0.2rem;
+    width: 0.18rem;
+    height: 0.18rem;
     border: #00c5ff solid 0.02rem;
     border-radius: 50%;
     color: #00c5ff;
+    font-size: 0.12rem;
 
 }
 .body_contents_info>div:nth-child(1){
@@ -210,9 +287,11 @@ export default {
 }
 .body_contents_info>div>div p:nth-child(1){
     font-weight: bold;
+    font-size: 0.14rem
 }
 .body_contents_info>div>div p:nth-child(2){
     color: #c6bac5;
+    font-size: 0.12rem
 }
 .body_contents_info>div>div p{
     margin: 0;
@@ -239,7 +318,7 @@ export default {
     color: #c6bac5;
 }
 .body_contents_new_items_info p:nth-child(1){
-    font-size: 0.18rem;
+    font-size: 0.16rem;
     color: #00caff;
 }
 .body_contents_new_items_info p{
@@ -280,6 +359,7 @@ export default {
     height: 100%;
     display: flex;
     align-items: center;
+    font-size: 0.14rem;
 }
 .body_contents_new_items{
     height: 1rem;
@@ -320,14 +400,15 @@ export default {
     color: #c6bac5;
 }
 .body_contents_title p:nth-child(2) i{
-    font-size: 0.18rem
+    font-size: 0.18rem;
 }
 .body_contents_title{
     width: 100%;
-    height: 0.5rem;
+    height: 0.4rem;
     border-bottom: 0.01rem solid #f6f6f7;
     display: flex;
     justify-content: space-between;
+    font-size: 0.14rem;
 }
 .body_contents{
     width: 100%;
@@ -345,7 +426,7 @@ export default {
     margin: 0;
     display: flex;
     justify-content: center;
-    font-size: 0.16rem;
+    font-size: 0.14rem;
     color: #c6bac5;
 }
 .top_img_info_contents_items div{
