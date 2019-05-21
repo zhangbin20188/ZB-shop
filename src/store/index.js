@@ -84,7 +84,7 @@ var actions={
         params.append('userid',id)
         axios.post('/ShowCartList',params)
         .then((res)=>{
-                // console.log(res.data)
+                console.log(res.data)
                 ctx.commit('joinShop',res.data)
         })  
     }

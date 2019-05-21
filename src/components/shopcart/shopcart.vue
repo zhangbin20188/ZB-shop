@@ -7,8 +7,8 @@
        <div class="content-list">
            <div class="list-box" v-for="(item,index) in shopcartList" :key="index">
                <div class="list-checkbox">
-                    <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
-                    <label  for="color-input-red"></label >
+                    <input :id="'shopCart_id'+ index" class="chat-button-location-radio-input color-input-red" type="checkbox" name="color-input-red" value="#f0544d" />
+                    <label  :for="'shopCart_id' + index" @click="changeTrue(index)"></label>
                </div>
                <div class="list-right">
                    <div class="list-img">
@@ -27,8 +27,8 @@
                            </div>
                            <div class="bottom-right">
                                <div class="sub">-</div>
-                               <input type="text" value="1" class="text-inp">
-                               <div class="add">+</div>
+                               <input type="text" :value="item.num" class="text-inp" ref="changeNum">
+                               <div class="add" @click="addShop(index)">+</div>
                            </div>
                         </div>
                    </div>
@@ -94,11 +94,21 @@ export default {
     name:"shopcart",
     data(){
         return {
-            id:1
+            id:1,
+            showTrue:false
         }
     },
     mounted(){
         this.$store.dispatch('joinShop',this.id)
+    },
+    methods:{
+        addShop(index){
+            // console.log(index)
+            this.$store.getters.shopcartList[index].num++
+        },
+        changeTrue(index){
+            console.log(index)
+        }
     },
     computed:{
         shopcartList(){
@@ -161,7 +171,7 @@ export default {
 /*当input框为选中状态时，lable标签的样式，其中在css选择时，“：”表示当前input框的值，即checked；
       该部分主要对显示的“对号”的大限居中方式，显示颜色进行了设置*/
     /*input框中颜色更改*/
-    #color-input-red +label{
+    .color-input-red +label{
         display: block;
         width: 23px;
         height: 23px;
@@ -170,11 +180,11 @@ export default {
         border-radius:50%; 
         border: 1px solid #dedad7
     }
-    #color-input-red:checked +label::before{
+    .color-input-red:checked +label::before{
         display: block;
         content: "\2714";
         text-align: center;
-        line-height: 23px;
+        line-height: 23px; 
         width: 23px;
         height: 23px;
         font-size: 16px;
