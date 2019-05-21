@@ -5,6 +5,9 @@ import classify from '@/components/classify/classify'
 import community from '@/components/community/community'
 import shopcart from '@/components/shopcart/shopcart'
 import me from '@/components/me/me'
+import me_children_set from '@/components/me/page/me_children_set'
+import me_children_ticket from '@/components/me/page/me_children_ticket'
+import me_children_account from '@/components/me/page/me_children_account'
 import search from '@/components/home/page/search'
 
 // 二级路由
@@ -57,6 +60,9 @@ export default new Router({
         component:me,
         meta:{showTabber:true}
     },
+    {path:'/me_children_set',name:'me_children_set', component:me_children_set},
+    {path:'/me_children_ticket',name:'me_children_ticket', component:me_children_ticket},
+    {path:'/me_children_account',name:'me_children_account', component:me_children_account},
 
     //非tabbar路由
     {

@@ -2,8 +2,8 @@
     <div class="me">
         <div class="top_img">
             <div class="top_opsion">
-                <i class="iconfont icon-shezhi"></i>
-                <i class="iconfont icon-kefu"></i>
+                <router-link tag="i" class="iconfont icon-shezhi" to="/me_children_set"></router-link>
+                <router-link tag="i" class="iconfont icon-kefu" to="/"></router-link>
             </div>
             <div class="top_img_info">
                 <div class="top_img_info_items">
@@ -19,14 +19,14 @@
 
                     </div>
                     <div class="top_img_info_contents_items">
-                        <div>
+                        <router-link tag="div" to="/me_children_ticket">
                             <span>2</span>
                             <p>优惠券/赠品卷</p>
-                        </div>
-                        <div>
+                        </router-link>
+                        <router-link tag="div" to="/me_children_account">
                             <span>0.00</span>
                             <p>我的账户</p>
-                        </div>
+                        </router-link>
                         <div>
                             <span>0</span>
                             <p>服务包/电子卷</p>
