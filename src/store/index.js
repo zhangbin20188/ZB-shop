@@ -36,6 +36,7 @@ var actions={
                 ctx.commit('img_list_incident',res.data)
         })  
     },
+    //左边侧边栏的请求
     left_list(ctx,item){
         var params= new URLSearchParams();
         params.append("parent_id",item.cat_id) //id
@@ -44,6 +45,7 @@ var actions={
             ctx.commit("left_list",res.data)
         })
     },
+    //右边侧边栏的请求
     right_list(ctx,obj){
         // console.log(obj)
         var params= new URLSearchParams();
@@ -107,7 +109,7 @@ var mutations={
 
     },
     particulars(state,data){
-        // console.log(data)
+        console.log(data)
         state.particularsList = data
         // console.log(state.particularsList)
     },

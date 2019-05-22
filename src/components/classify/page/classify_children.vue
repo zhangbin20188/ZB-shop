@@ -58,7 +58,7 @@ export default {
     mounted(){
         // console.log(this.$route.params.item)
         let obj={
-            cat_id:this.$route.params.item.cat_id,
+            cat_id:this.$route.params.item.cat_id,  
             sort_order:this.initialize
         }
          this.$store.dispatch('left_list',this.$route.params.item)
@@ -82,7 +82,7 @@ export default {
                 cat_id:this.$route.params.item.cat_id,
                 sort_order:sort_order
             }
-            console.log(obj)
+            // console.log(obj)
             this.colorTure=index
             this.$store.dispatch('clickColor',obj)
         },
