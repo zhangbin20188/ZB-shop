@@ -7,7 +7,7 @@
        <div class="content-list">
            <div class="list-box" v-for="(item,index) in shopcartList" :key="index">
                <div class="list-checkbox">
-                    <input :id="'shopCart_id'+ index" class="chat-button-location-radio-input color-input-red" type="checkbox" name="color-input-red" value="#f0544d" />
+                    <input :id="'shopCart_id'+ index" class="chat-button-location-radio-input color-input-red" type="checkbox" name="color-input-red" value="#f0544d" :checked="showTrue"/>
                     <label  :for="'shopCart_id' + index" @click="changeTrue(index)"></label>
                </div>
                <div class="list-right">
@@ -26,7 +26,7 @@
                                 <span>￥{{item.price}}</span><span>/kg</span>
                            </div>
                            <div class="bottom-right">
-                               <div class="sub">-</div>
+                               <div class="sub" @click="subShop(index)">-</div>
                                <input type="text" :value="item.num" class="text-inp" ref="changeNum">
                                <div class="add" @click="addShop(index)">+</div>
                            </div>
@@ -34,37 +34,6 @@
                    </div>
                </div>
            </div>
-
-            <!-- <div class="list-box">
-               <div class="list-checkbox">
-                    <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
-                    <label  for="color-input-red"></label >
-               </div>
-               <div class="list-right">
-                   <div class="list-img">
-                       <img src="../classify/image/bg.jpg">
-                   </div>
-
-                   <div class="list-text">
-                       <p class="list-text-title">[A果] 泰国金正榴莲 （散称）</p>
-                       <div class="time"><span>最快今日到达</span></div>
-                       <div class="standard">
-                           <span>规格：称重</span>
-                       </div>
-                       <div class="bottom">
-                           <div class="bottom-left">
-                                <span>￥47.80</span><span>/kg</span>
-                           </div>
-                           <div class="bottom-right">
-                               <div class="sub">-</div>
-                               <input type="text" value="1" class="text-inp">
-                               <div class="add">+</div>
-                           </div>
-                        </div>
-                   </div>
-               </div>
-           </div> -->
-
 
        </div>
 
@@ -106,8 +75,16 @@ export default {
             // console.log(index)
             this.$store.getters.shopcartList[index].num++
         },
+        subShop(index){
+            if (this.$store.getters.shopcartList[index].num <= 0) {
+                this.$store.getters.shopcartList[index].num = 0
+            }else{
+                this.$store.getters.shopcartList[index].num--
+            }
+        },
         changeTrue(index){
-            console.log(index)
+            this.showTrue = true
+            console.log(this.showTrue)
         }
     },
     computed:{

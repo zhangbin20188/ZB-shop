@@ -58,6 +58,7 @@ export default {
     mounted(){
         // console.log(this.$route.params.item)
          this.$store.dispatch('left_list',this.$route.params.item)
+         
          this.$store.dispatch('right_list',this.$route.params.item)
     },
     computed:{

@@ -32,13 +32,13 @@ var actions={
     img_list_incident(ctx){
         axios.get('/ShowCatList')
         .then((res)=>{
-                // console.log(res.data)
+                console.log(res.data)
                 ctx.commit('img_list_incident',res.data)
         })  
     },
     left_list(ctx,item){
         var params= new URLSearchParams();
-        params.append("parent_id",item.id)
+        params.append("parent_id",item.parent_id) //id
         axios.post('/ShowLeftItemList',params)
         .then((res)=>{
             ctx.commit("left_list",res.data)
@@ -84,7 +84,7 @@ var actions={
         params.append('userid',id)
         axios.post('/ShowCartList',params)
         .then((res)=>{
-                console.log(res.data)
+                // console.log(res.data)
                 ctx.commit('joinShop',res.data)
         })  
     }
@@ -93,10 +93,10 @@ var actions={
 var mutations={
     img_list_incident(state,res){
         state.img_list=res
-        // console.log(state.img_list)
+        console.log(state.img_list)
     },
     left_list(state,data){
-        // console.log(data)
+        console.log(data)
         state.left_list=data
 
     },
