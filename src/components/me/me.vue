@@ -24,13 +24,13 @@
                             <p>优惠券/赠品卷</p>
                         </router-link>
                         <router-link tag="div" to="/me_children_account">
-                            <span>0.00</span>
+                            <span>100.00</span>
                             <p>我的账户</p>
                         </router-link>
-                        <div>
+                        <router-link tag="div" to="/me_children_serve">
                             <span>0</span>
                             <p>服务包/电子卷</p>
-                        </div>
+                        </router-link>
                     </div>
                 </div>
 
@@ -125,10 +125,12 @@
         </div>
         <div class="body_contents_instrument_push">
             <div v-for="(item,index) in shop_llist" :key="index"> 
-                <img :src="item.img" >
+                <img :src="item.image" >
                 <p>{{item.title}}</p>
-                <p v-if="typeof(item.frequency)=='number'">买过{{item.frequency}}次</p>
-                <p v-else>{{item.frequency}}</p>
+                <div>
+                    <p>￥{{item.price}}</p>
+                    <p><span class="iconfont icon-gouwuche"></span></p>
+                </div>
             </div>
         </div>
 
@@ -136,6 +138,7 @@
     </div>
 </template>
 <script>
+import axios from "axios";
 export default {
     name:"me",
     data(){
@@ -155,37 +158,59 @@ export default {
                 {id:7,icons:'icon-fapiaocuti',title:'开发票',test:''},
                 {id:8,icons:'icon-kefu1',title:'鳄鱼小丽',test:'有问题找小丽'}
             ],
-            shop_llist:[
-                {id:1,img:require('./image/head_portrait.jpg'),title:'乳山生蚝',frequency:5},
-                {id:1,img:require('./image/head_portrait.jpg'),title:'发的发阿道夫',frequency:"还没买过"},
-                {id:1,img:require('./image/head_portrait.jpg'),title:'发代付费',frequency:5},
-                {id:1,img:require('./image/head_portrait.jpg'),title:'个人规划如果',frequency:5},
-                {id:1,img:require('./image/head_portrait.jpg'),title:'还挺好挺好',frequency:5},
-                {id:1,img:require('./image/head_portrait.jpg'),title:'加密密码',frequency:5},
-            ]
+            shop_llist:[]
 
         }
+    },
+    created(){
+        axios.get('/HmItemPush').then((res)=>{
+                // console.log(res.data)
+                this.shop_llist=res.data
+
+        })
     }
     
 }
 </script>
 <style scoped>
-.body_contents_instrument_push div img{
+.body_contents_instrument_push>div>div>p:nth-child(2) span{
+    font-size: 0.27rem;
+    color: #00c5ff;
+}
+.body_contents_instrument_push>div>div>p:nth-child(1){
+    color: #c6535a;
+
+}
+.body_contents_instrument_push>div>div>p{
+    margin: 0.05rem 0;
+    font-size: 0.2rem;
+}
+.body_contents_instrument_push>div>div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 0.05rem;
+}
+.body_contents_instrument_push>div p{
+    font-size: 0.14rem;
+}
+.body_contents_instrument_push>div img{
     width: 1.5rem;
     height: 1.5rem;
 }
-.body_contents_instrument_push div p:nth-child(3){
+.body_contents_instrument_push>div>p:nth-child(3){
     font-size: 0.14rem;
     color: #bcb9b9;
 }
-.body_contents_instrument_push div p{
+.body_contents_instrument_push>div>p{
     width: 100%;
     margin: 0.025rem;
     overflow: hidden;/*内容超出后隐藏*/
     text-overflow: ellipsis;/* 超出内容显示为省略号*/
     white-space: nowrap;/*文本不进行换行*/
 }
-.body_contents_instrument_push div{
+.body_contents_instrument_push>div{
     width: 48%;
     background: #fff;
     display: flex;
@@ -338,7 +363,6 @@ export default {
 .body_contents_new_items_img{
     width:0.5rem;
     height:100%;
-    background: red;
 }
 .body_contents_new_items>div:nth-child(2){
     /* flex: 7; */

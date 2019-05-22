@@ -8,6 +8,7 @@ import me from '@/components/me/me'
 import me_children_set from '@/components/me/page/me_children_set'
 import me_children_ticket from '@/components/me/page/me_children_ticket'
 import me_children_account from '@/components/me/page/me_children_account'
+import me_children_serve from '@/components/me/page/me_children_serve'
 import search from '@/components/home/page/search'
 
 // 二级路由
@@ -63,6 +64,7 @@ export default new Router({
     {path:'/me_children_set',name:'me_children_set', component:me_children_set},
     {path:'/me_children_ticket',name:'me_children_ticket', component:me_children_ticket},
     {path:'/me_children_account',name:'me_children_account', component:me_children_account},
+    {path:'/me_children_serve',name:'me_children_serve', component:me_children_serve},
 
     //非tabbar路由
     {
