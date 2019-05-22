@@ -13,7 +13,6 @@
                     <div v-for="(item,index) in left_list" :key="index" :class="colorTure==index?'active':''" @click="clickColor(index,item.sort_order)"><a>{{item.name}}</a></div>
                 </div>
             </div>
-
             <div class="wrap-right">
                 <div class="wrap-max">
                     <div class="header-img">
@@ -49,6 +48,7 @@ export default {
         return{
             title:'新鲜水果',
             colorTure:0,
+            initialize:1
             
         }
     },
@@ -57,13 +57,18 @@ export default {
     },
     mounted(){
         // console.log(this.$route.params.item)
+        let obj={
+            cat_id:this.$route.params.item.cat_id,
+            sort_order:this.initialize
+        }
          this.$store.dispatch('left_list',this.$route.params.item)
+
+         this.$store.dispatch('right_list',obj)
          
-         this.$store.dispatch('right_list',this.$route.params.item)
     },
     computed:{
         left_list(){
-        return this.$store.getters.left_list
+            return this.$store.getters.left_list
         },
         right_list(){
             return this.$store.getters.right_list
@@ -71,12 +76,13 @@ export default {
 
     },
     methods:{
-        clickColor(index,id){
+        clickColor(index,sort_order){
             // console.log(id)
             var obj={
-                id:this.$route.params.item.id,
-                sort_order:id
+                cat_id:this.$route.params.item.cat_id,
+                sort_order:sort_order
             }
+            console.log(obj)
             this.colorTure=index
             this.$store.dispatch('clickColor',obj)
         },

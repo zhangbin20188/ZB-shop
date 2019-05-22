@@ -90,7 +90,8 @@ export default {
     computed:{
         shopcartList(){
             return this.$store.getters.shopcartList
-        }
+        },
+        
     }
     
 }

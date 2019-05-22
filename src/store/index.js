@@ -38,16 +38,17 @@ var actions={
     },
     left_list(ctx,item){
         var params= new URLSearchParams();
-        params.append("parent_id",item.parent_id) //id
+        params.append("parent_id",item.cat_id) //id
         axios.post('/ShowLeftItemList',params)
         .then((res)=>{
             ctx.commit("left_list",res.data)
         })
     },
-    right_list(ctx,item){
+    right_list(ctx,obj){
+        // console.log(obj)
         var params= new URLSearchParams();
-        params.append('id',item.id)
-        params.append('sort_order',item.sort_order)
+        params.append('cat_id',obj.cat_id)
+        params.append('sort_order',obj.sort_order)
         axios.post('/ShowRightItemList',params)
         .then((res)=>{
             ctx.commit("right_list",res.data)
@@ -55,11 +56,11 @@ var actions={
     },
     clickColor(ctx,obj){
         var params= new URLSearchParams();
-        params.append('id',obj.id)
+        params.append('cat_id',obj.cat_id)
         params.append('sort_order',obj.sort_order)
         axios.post('/ShowRightItemList',params)
         .then((res)=>{
-            ctx.commit("clickColor",res.data)
+            ctx.commit("right_list",res.data)
         })
     },
     particulars(ctx,id){
@@ -93,21 +94,17 @@ var actions={
 var mutations={
     img_list_incident(state,res){
         state.img_list=res
-        console.log(state.img_list)
+        // console.log(state.img_list)
     },
     left_list(state,data){
-        console.log(data)
+        // console.log(data)
         state.left_list=data
 
     },
     right_list(state,data){
-        // console.log(data)
+        console.log(data)
         state.right_list=data
 
-    },
-    clickColor(state,data){
-        // console.log(data)
-        state.right_list=data
     },
     particulars(state,data){
         // console.log(data)
