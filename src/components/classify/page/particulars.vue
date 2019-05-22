@@ -33,21 +33,15 @@
                 <p>已选择：<span>称重</span></p>
                 <i class="iconfont icon-xiangyou1 iconyou"></i>
             </div>
-
             <div class="details">
                 <div class="title"><span class="dot right"><span class="left-dot">·</span><span>·</span></span>详情 · <span class="detail">DETAIL</span><span class="dot left"><span class="left-dot">·</span><span>·</span></span></div>
                 <div class="details-wrap" v-html="particulars.item_desc">
-                    <!-- <div class="details-list"><span class="place">产地</span><span class="state">泰国</span></div>
-                    <div class="details-list"><span class="place">净含量</span><span class="state">1kg</span></div>
-                    <div class="details-list"><span class="place">存储条件</span><span class="state">冷藏</span></div> -->
                 </div>
             </div>
         </div>
-
         <!-- <div class="bg-img">
                 <img src="">
         </div> -->
-
         <div class="btn" @click="joinShoppcart">加入购物车</div>
     </div>
 </template>
@@ -62,7 +56,13 @@ export default {
     },
     methods:{
         clickReturn(){
-            this.$router.push({name:'classify_children'})
+            let objs={
+                cat_id:this.$store.getters.particulars.parent_id,
+                colorTure:this.$route.params.obj.colorTure
+            }
+            // console.log(this.$store.getters.particulars)
+            console.log(objs)
+            this.$router.push({name:'classify_children',params:{objs}}) 
         },
         joinShoppcart(){
             this.$store.dispatch('joinShoppcart',this.$store.getters.particulars.id)
@@ -72,8 +72,8 @@ export default {
         }
     },
     mounted(){
-        // console.log(this.$route.params.item.id)
-        this.$store.dispatch('particulars',this.$route.params.item.id)
+        // console.log(this.$store.getters.particulars)
+        this.$store.dispatch('particulars',this.$route.params.obj.item.id)
     },
     computed:{
         particulars(){

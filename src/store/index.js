@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 var state={
     img_list:[],
-    left_list:[],
+    title_name:'',
+    left_list:  [],
     right_list:[], //默认第一条数据
     particularsList:{},
     shopcartList:[] //购物车数据
@@ -26,9 +27,15 @@ var getters={
     },
     shopcartList(){
         return state.shopcartList
+    },
+    title_name(){
+        return state.title_name
     }
 }
 var actions={
+    title_name(ctx,name){
+        ctx.commit('title_name',name)
+    },
     img_list_incident(ctx){
         axios.get('/ShowCatList')
         .then((res)=>{
@@ -36,9 +43,9 @@ var actions={
                 ctx.commit('img_list_incident',res.data)
         })  
     },
-    left_list(ctx,item){
+    left_list(ctx,cat_id){
         var params= new URLSearchParams();
-        params.append("parent_id",item.cat_id) //id
+        params.append("parent_id",cat_id) //id
         axios.post('/ShowLeftItemList',params)
         .then((res)=>{
             ctx.commit("left_list",res.data)
@@ -92,6 +99,9 @@ var actions={
 
 }
 var mutations={
+    title_name(state,name){
+        state.title_name=name
+    },
     img_list_incident(state,res){
         state.img_list=res
         // console.log(state.img_list)
@@ -107,7 +117,7 @@ var mutations={
 
     },
     particulars(state,data){
-        // console.log(data)
+        console.log(data)
         state.particularsList = data
         // console.log(state.particularsList)
     },

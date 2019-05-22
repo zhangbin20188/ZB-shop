@@ -8,12 +8,10 @@
                 <img :src="item.imges">
                 <p>{{item.name}}</p>
             </div>
-            
         </div>
         <div class="bottom">
 
         </div>
-
     </div>
 </template>
 <script>
@@ -37,6 +35,7 @@ export default {
     methods:{
         router_to(item){
             this.$router.push({name:'classify_children',params:{item}})
+            this.$store.dispatch('title_name',item.name)
         }
     }
 }

@@ -24,7 +24,6 @@
                                 <img :src="item.image">
                                 <!-- <img src="../image/bg.jpg"> -->
                             </div>
-
                             <div class="right-text">
                                 <p class="title">{{item.title}}</p>
                                 <span class="txt">{{item.sell_point}}</span>
@@ -46,24 +45,45 @@ export default {
     name:"classify_children",
     data(){
         return{
-            title:'新鲜水果',
+            title:'',
             colorTure:0,
             initialize:1
             
         }
     },
     created(){
-        this.title=this.$route.params.item.name
+        if(typeof(this.$route.params.objs)=='undefined'){
+             this.title=this.$route.params.item.name
+        }else{
+            this.title=this.$store.getters.title_name
+           this.colorTure=this.$route.params.objs.colorTure-1
+        }
+        
+
+        
     },
     mounted(){
         // console.log(this.$route.params.item)
-        let obj={
-            cat_id:this.$route.params.item.cat_id,
-            sort_order:this.initialize
-        }
-         this.$store.dispatch('left_list',this.$route.params.item)
+        
+        if(typeof(this.$route.params.objs)=='undefined'){
+                let objj={
+                cat_id:this.$route.params.item.cat_id,
+                sort_order:this.initialize
+            }
+            this.$store.dispatch('left_list',this.$route.params.item.cat_id)
+            this.$store.dispatch('right_list',objj)
+        }else{
+            let objd={
+                cat_id:this.$route.params.objs.cat_id,
+                sort_order:this.$route.params.objs.colorTure
+            }
+            console.log(objd)
+            
+            this.$store.dispatch('left_list',objd.cat_id)
+            this.$store.dispatch('right_list',objd)
 
-         this.$store.dispatch('right_list',obj)
+        }
+        
          
     },
     computed:{
@@ -73,22 +93,35 @@ export default {
         right_list(){
             return this.$store.getters.right_list
         }
-
     },
     methods:{
         clickColor(index,sort_order){
             // console.log(id)
-            var obj={
-                cat_id:this.$route.params.item.cat_id,
-                sort_order:sort_order
+            if(typeof(this.$route.params.objs)=='undefined'){
+                this.colorTure=index
+                    let sss={
+                    cat_id:this.$route.params.item.cat_id,
+                    sort_order:sort_order
+                }
+                this.$store.dispatch('clickColor',sss)
+            }else{
+                let objd={
+                    cat_id:this.$route.params.objs.cat_id,
+                    sort_order:sort_order
+                }
+                this.$store.dispatch('clickColor',objd)
+                this.colorTure=index
             }
-            console.log(obj)
-            this.colorTure=index
-            this.$store.dispatch('clickColor',obj)
+            
         },
         clickEnter(item){
             // console.log(item)
-            this.$router.push({name:'particulars',params:{item}})
+            let obj={
+                item:item,
+                colorTure:this.colorTure+1
+            }
+            console.log(obj)
+            this.$router.push({name:'particulars',params:{obj}})
         }
     }
     
