@@ -14,6 +14,8 @@ import search from '@/components/home/page/search'
 // 二级路由
 import classify_children from '@/components/classify/page/classify_children'
 import particulars from '@/components/classify/page/particulars'
+import hot_children from '@/components/community/pages/hot_children'
+import pages from '@/components/shopcart/pages/pages'
 
 
 
@@ -42,7 +44,8 @@ export default new Router({
     },
     {path:'/classify_children',name:'classify_children', component:classify_children},
     {path:'/particulars',name:'particulars', component:particulars},
-    
+    {path:'/hot_children',name:'hot_children', component:hot_children},
+    {path:'/pages',name:'pages', component:pages},
     {
         path:"/community",
         name:"community",

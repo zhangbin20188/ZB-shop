@@ -2,13 +2,13 @@
     <div class="shopcart">
        <div class="header">
            <span>购物车</span>
-           <span>删除</span>
+           <span @click="delShop">删除</span>
        </div>
        <div class="content-list">
            <div class="list-box" v-for="(item,index) in shopcartList" :key="index">
                <div class="list-checkbox">
-                    <input :id="'shopCart_id'+ index" class="chat-button-location-radio-input color-input-red" type="checkbox" name="color-input-red" value="#f0544d" :checked="showTrue"/>
-                    <label  :for="'shopCart_id' + index" @click="changeTrue(index)"></label>
+                    <input :id="'shopCart_id'+ index" class="chat-button-location-radio-input color-input-red" type="checkbox" name="color-input-red" v-model="checkboxitem" :value="item"/>
+                    <label  :for="'shopCart_id' + index"></label>
                </div>
                <div class="list-right">
                    <div class="list-img">
@@ -40,37 +40,54 @@
        <div class="checkAll">
             <div class="checkAll-left">
                 <div>
-                    <input id="color-input-all" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
+                    <input id="color-input-all" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" :checked='selectAll'  @click="allPick"/>
                     <label  for="color-input-all"></label >
+                    {{all}}
                 </div>
                 <div class="checkAll-txt"><span>全选</span></div>
             </div>
 
             <div class="checkAll-right">
                 <div class="left-text">
-                    <span>合计：<strong>￥<i>593.50</i></strong> (免运费)</span>
+                    <span>合计：<strong>￥<i>{{total}}</i></strong> (免运费)</span>
                 </div>
 
-                <div class="right-btn">
-                    去结算
+                <div class="right-btn" @click="joinPages" ref="closeMoney" :class="'active'?activeTure:!activeTure">
+                    结算(<i>{{checkboxitem.length}}</i>)
                 </div>
+                {{changeColor}}
             </div>
        </div>
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
     name:"shopcart",
     data(){
         return {
             id:1,
-            showTrue:false
+            selectAll:false,
+            checkboxitem:[],
+            activeTure:false
         }
     },
     mounted(){
         this.$store.dispatch('joinShop',this.id)
     },
     methods:{
+        allPick(){   
+            if(this.selectAll){
+                this.selectAll=false
+                this.checkboxitem = []
+                console.log(1)
+            }else{
+                this.selectAll=true
+                this.checkboxitem = this.shopcartList
+                console.log(this.checkboxitem)
+            }
+        },
         addShop(index){
             // console.log(index)
             this.$store.getters.shopcartList[index].num++
@@ -82,16 +99,67 @@ export default {
                 this.$store.getters.shopcartList[index].num--
             }
         },
-        changeTrue(index){
-            this.showTrue = true
-            console.log(this.showTrue)
-        }
+        joinPages(){
+            if(this.checkboxitem.length>0){
+                var id = this.checkboxitem[0].cartid
+                this.activeTure = true
+                this.$router.push({name:'pages',params:{id}})
+                // this.$store.dispatch('joinPages',this.checkboxitem) 
+            }else{
+                this.activeTure = false
+            }
+        },
+        delShop(){
+            var cartid=this.checkboxitem[0].cartid
+            this.shopcartList.splice(0,1)
+            this.reload(cartid)
+        },
+        reload(cartid){
+            //  console.log(id)
+            axios.get('/DeleteCart?cartid='+cartid+'')
+ 
+              //then获取成功；response成功后的返回值（对象）
+ 
+            .then(response=>{
+        
+                console.log(response);
+        
+            })
+        },
     },
     computed:{
+        all(){
+            if(this.checkboxitem.length==0){
+                this.selectAll=false
+                // this.$refs.closeMoney.style.color =' rgba(255, 255, 255, 0.5)'
+            }else if(this.checkboxitem.length==this.shopcartList.length){
+                this.selectAll=true
+                // this.$refs.closeMoney.style.color = "white"
+            }else{
+                this.selectAll=false
+                // this.$refs.closeMoney.style.color = "rgba(255, 255, 255, 0.5)"
+            }
+        },
+        changeColor(){
+            var _this=this
+            if(this.checkboxitem.length>0){
+                // console.log(this.$refs.closeMoney)
+                this.$refs.closeMoney.style.color =' white'
+            }else {
+                // console.log(_this.$refs.closeMoney)
+            }
+        },
+        total(){
+            var sum=0
+            for(var i=0;i<this.checkboxitem.length;i++){
+                sum+=parseFloat(this.checkboxitem[i].num)*parseFloat(this.checkboxitem[i].price)
+            }
+            return sum
+        },
         shopcartList(){
             return this.$store.getters.shopcartList
         },
-        
+       
     }
     
 }
@@ -330,7 +398,12 @@ export default {
         background: #0ac7fe;
         height: 60px;
         line-height: 60px;
-        color: white;
-        font-size: 18px
+        color: rgba(255, 255, 255, 0.5);
+        /* color: white; */
+        font-size: 18px;
+        /* pointer-events: none;  */
+    }
+    .active{
+        pointer-events: none; 
     }
 </style>

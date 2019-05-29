@@ -1,11 +1,13 @@
 <template>
     <div class="particulars">
+            <div class="topHeader">
+                    <i class="iconfont icon-fanhui1 return" @click="clickReturn"></i>
+                    <i class="iconfont  icon-gouwuche shoppcart" @click="joinShop">
+                    <div class="num">{{shopcartLength}}</div>
+                    </i>
+            </div>
             <div class="header-img">
                 <img :src="particulars.image">
-                <i class="iconfont icon-fanhui1 return" @click="clickReturn"></i>
-                <i class="iconfont  icon-gouwuche shoppcart" @click="joinShop">
-                    <div class="num">1</div>
-                </i>
             </div>
 
         <div class="content">
@@ -33,26 +35,22 @@
                 <p>已选择：<span>称重</span></p>
                 <i class="iconfont icon-xiangyou1 iconyou"></i>
             </div>
-
             <div class="details">
                 <div class="title"><span class="dot right"><span class="left-dot">·</span><span>·</span></span>详情 · <span class="detail">DETAIL</span><span class="dot left"><span class="left-dot">·</span><span>·</span></span></div>
                 <div class="details-wrap" v-html="particulars.item_desc">
-                    <!-- <div class="details-list"><span class="place">产地</span><span class="state">泰国</span></div>
-                    <div class="details-list"><span class="place">净含量</span><span class="state">1kg</span></div>
-                    <div class="details-list"><span class="place">存储条件</span><span class="state">冷藏</span></div> -->
                 </div>
             </div>
         </div>
-
         <!-- <div class="bg-img">
                 <img src="">
         </div> -->
-
         <div class="btn" @click="joinShoppcart">加入购物车</div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name:'particulars',
     data(){
@@ -60,24 +58,41 @@ export default {
             id:1
         }
     },
+    created(){
+        this.$store.dispatch('shopcartLength',this.id)
+    },
     methods:{
         clickReturn(){
-            this.$router.push({name:'classify_children'})
+            let objs={
+                cat_id:this.$store.getters.particulars.parent_id,
+                colorTure:this.$route.params.obj.colorTure
+            }
+            // console.log(this.$store.getters.particulars)
+            // console.log(objs)
+            this.$router.push({name:'classify_children',params:{objs}}) 
         },
         joinShoppcart(){
             this.$store.dispatch('joinShoppcart',this.$store.getters.particulars.id)
         },
         joinShop(){
+            this.num++
             this.$router.push({name:'shopcart'})
         }
     },
     mounted(){
-        // console.log(this.$route.params.item.id)
-        this.$store.dispatch('particulars',this.$route.params.item.id)
+        // console.log(this.$store.getters.particulars)
+        this.$store.dispatch('particulars',this.$route.params.obj.item.id)
     },
     computed:{
         particulars(){
             return this.$store.getters.particulars
+        },
+        shopcartLength(){
+            if (this.$store.getters.shopcartLength.length>0) {
+                return this.$store.getters.shopcartLength.length
+            }else{
+                return 0
+            }
         }
     }
 }
@@ -92,44 +107,50 @@ export default {
         height: 100%;
         background: white
     }
-    .header-img{
+    .topHeader{
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: 400px;
-        position: relative;
-    }
-    .header-img img{
-        width: 100%;
-        height: 100%
-    }
-    .header-img i{
-        position: absolute;
+        padding: 10px 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+        z-index: 999
     }
     .return{
+        margin-left: 10px;
         width: 36px;
         height: 36px;
         line-height: 36px;
         display: block;
-        top: 10px;
-        left: 10px;
         color: white;
         background: #b2b2b2;
         border-radius:50%;
         text-align: center;
         font-size: 23px;
+        float: left;
     }
     .shoppcart{
         width: 36px;
+        margin-right: 10px;
+        float: right;
         height: 36px;
         line-height: 36px;
         display: block;
-        top: 10px;
-        right: 10px;
         color: white;
         background: #b2b2b2;
         border-radius:50%;
         text-align: center;
         font-size: 25px;
         position: relative
+    }
+    .header-img{
+        width: 100%;
+        height: 400px;
+    }
+    .header-img img{
+        width: 100%;
+        height: 100%
     }
     .num{
         width: 23px;

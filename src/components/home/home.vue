@@ -24,6 +24,10 @@
           <div class="swiper-pagination"></div>
         </div>
 
+        <div class="body_contents_fen">
+          <div></div>
+        </div>
+
         
 
 
@@ -40,10 +44,7 @@ export default {
     return {
       sss: require("./image/head_portrait.jpg"),
       list:[
-        {imgurl:require("./image/carousel_photo.jpg")},
-        {imgurl:require("./image/carousel_photo.jpg")},
-        {imgurl:require("./image/carousel_photo.jpg")},
-        {imgurl:require("./image/carousel_photo.jpg")}
+        {imgurl:require("./image/1.0.jpg")},{imgurl:require("./image/1.1.jpg")},{imgurl:require("./image/1.2.jpg")},{imgurl:require("./image/1.3.jpg")},{imgurl:require("./image/1.4.jpg")},{imgurl:require("./image/1.5.jpg")},
       ],
     }
   },
@@ -62,26 +63,31 @@ export default {
 			}
     })
   },
-
-  
-  
- 
-
 };
 </script>
 <style scoped>
+.body_contents_fen div{
+  flex: 20%;
+  height: 50%;
+}
+.body_contents_fen{
+  width: 100%;
+  padding: 0 0.15rem;
+  box-sizing: border-box;
+  margin: 0.1rem 0;
+  display: flex;
+  flex-flow: row wrap;
+}
 .swiper-container {
     width: 100%;
     margin: 0;
     padding: 0;
   }
-  .swiper-wrapper {
-    height: 200px;
-  }
   .swiper-slide img {
     max-width: 100%;
   }
   .swiper-slide {
+    /* height: 1rem; */
     text-align: center;
     background: #fff;
     /* Center slide text vertically */
@@ -98,6 +104,8 @@ export default {
     -webkit-align-items: center;
     align-items: center;
   }
+
+
 .nav_top {
   width: 100%;
   height: 0.6rem;
